@@ -62,16 +62,28 @@ app.post("/products", (req, res) => {
   }
   */
 
-  const newProduct = {
-    id: products.length + 1,
-    name: req.body.name,
-    category: req.body.category,
-    price: parseInt(req.body.price),
-    stock: parseInt(req.body.stock)
-  };
+  if(!req.body.name && !req.body.category && !req.body.price && !req.body.stock) {
+    res.status(500).send("Please fill in the product information");
+  }
+  else {
+    if(!req.body.name) {
+      req.body.name = null;
+    }
+    if(!req.body.category) {
+      req.body.category = null;
+    }
 
-  products.push(newProduct);
-  res.status(201).json(newProduct);
+    const newProduct = {
+      id: products.length + 1,
+      name: req.body.name,
+      category: req.body.category,
+      price: parseInt(req.body.price),
+      stock: parseInt(req.body.stock)
+    };
+
+    products.push(newProduct);
+    res.status(201).json(newProduct);
+  }
   // #swagger.responses[500]
 });
 
